@@ -1,0 +1,7 @@
+- hosts: web
+  become: true
+  gather_facts: false
+  tasks:
+  - include_role:
+      name: nginx
+      tasks_from: configuration

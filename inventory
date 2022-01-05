@@ -1,0 +1,11 @@
+[web]
+altea.land ansible_host=95.216.186.238
+
+[minecraft]
+play.altea.land
+
+[vpn]
+usa-vpn.altea.land
+
+[vault]
+vault.altea.land ansible_host=95.216.186.238

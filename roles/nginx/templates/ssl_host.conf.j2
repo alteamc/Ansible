@@ -1,0 +1,30 @@
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name {{ item }} *.{{ item }};
+	return 301 https://{{ item }}$request_uri;
+}
+
+server {
+	listen 443 ssl http2;
+	listen [::]:443 ssl http2;
+	server_name {{ item }} *.{{ item }};
+
+	add_header X-Request-ID $request_id;
+
+	include /etc/nginx/conf.d/global/ssl_param;
+	include /etc/nginx/conf.d/global/set_headers;
+
+	ssl_certificate		/opt/certbot/ssl/{{ item }}/fullchain.pem;
+	ssl_certificate_key	/opt/certbot/ssl/{{ item }}/privkey.pem;
+
+{% if item == "altea.land" %}
+	include /etc/nginx/conf.d/global/location_template_index
+{% elif item == "vault.altea.land" %}
+	nclude /etc/nginx/conf.d/global/location_template_vault
+{% endif %}
+
+access_log {{ item }}_access.log
+error_log {{ item }}_error.log
+}

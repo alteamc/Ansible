@@ -1,0 +1,16 @@
+root /var/www/altea.land;
+index index.html;
+
+location / {
+	try_files $uri $uri/ $uri.html;
+}
+
+location /discord {
+	return 301 https://discord.gg/cSn9Qc6XRJ;
+}
+
+location /favicon.ico {
+	log_not_found off;
+	access_log off;
+	return 200;
+}
