@@ -1,0 +1,29 @@
+- name: "Download GraalVM archive"
+  get_url:
+    url: https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-{{ GRAALVM_VERSION }}/graalvm-ce-java{{ JAVA_VERSION }}-linux-amd64-{{ GRAALVM_VERSION }}.tar.gz
+    dest: /opt/graalvm.tar.gz
+
+- name: "Extract GraalVM archive"
+  unarchive:
+    src: /opt/graalvm.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: "Set JAVA_HOME env"
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    regexp: '^JAVA_HOME'
+    line: 'JAVA_HOME=/opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}'
+
+- name: "Set PATH env"
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    regexp: '^PATH'
+    line: 'PATH=$PATH:/opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}/bin'
+
+- name: "Remove GraalVM archive"
+  file:
+    path: /opt/graalvm.tar.gz
+    state: absent

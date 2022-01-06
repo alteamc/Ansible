@@ -1,0 +1,58 @@
+- name: "Install screen"
+  apt:
+    name: screen
+    state: present
+    update_cache: yes
+
+- name: "Create server folders"
+  file:
+    path: /opt/{{ item }}
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+  with_items: "{{ SERVERS }}"
+
+- name: "Create temporary folder for BuildTools"
+  file:
+    path: /tmp/buildtools
+    state: directory
+    mode: 0755
+
+- name: "Download BuildTools"
+  get_url:
+    src: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+    dest: /tmp/buildtools/
+
+- name: "Build spigot.jar file"
+  shell: 'java -jar /tmp/buildtools/BuildTools.jar --rev {{ MINECRAFT_VERSION }}'
+
+- name: "Copy spigot.jar to server folder"
+  copy:
+    src: /opt/buildtools/spigot-{{ MINECRAFT_VERSION }}.jar
+    dest: /opt/{{ item }}/server.jar
+    remote_src: yes
+  with_items: "{{ SERVERS }}"
+
+- name: "Agree with EULA"
+  copy:
+    src: eula.txt
+    dest: /opt/{{ item }}/eula.txt
+    mode: 0644
+    owner: root
+    group: root
+  with_items: "{{ SERVERS }}"
+
+- name: "Copy scripts"
+  copy:
+    src: files/scripts/
+    dest: /opt/{{ item }}/
+    mode: 0755
+    owner: root
+    group: root
+  with_items: "{{ SERVERS }}"
+
+- name: "Remove tmp files from the server"
+  file:
+    path: /tmp/buildtools/
+    state: absent

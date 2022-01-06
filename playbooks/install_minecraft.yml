@@ -1,0 +1,5 @@
+- hosts: minecraft
+  gather_facts: true
+  roles:
+    - graalvm
+    - minecraft

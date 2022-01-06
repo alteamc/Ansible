@@ -1,0 +1,33 @@
+- name: "Create groups"
+  group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ users_groups }}"
+
+- name: "Set root password"
+  user:
+    name: root
+    password: "$6$L.LsdFq3rF1WVpgf$JtvU3y5c89z2WyOokZ29NFtiS1J4uozbiBZzTcChXj3shPOpbw1j2Rv4oIjTyUBuv06LTHJXvamitEx9.Y2jA/"
+    shell: /bin/bash
+    state: present
+  
+- name: "Copy bash.bashrc"
+  copy:
+    src: bash.bashrc
+    dest: /etc/bash.bashrc
+    owner: root
+    group:  root
+    mode: 0644
+
+- name: "Install sudo"
+  apt:
+    name: sudo
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: "Add sudo NOPASSWD for Ansible user"
+  lineinfile:
+    dest: /etc/sudoers
+    line: 'ansible ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'

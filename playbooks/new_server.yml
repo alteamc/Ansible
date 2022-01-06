@@ -1,0 +1,24 @@
+- hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: "Set become status"
+      set_fact:
+        ansible_become_status: false
+      when: ansible_ssh_user is defined and ansible_ssh_user == 'root'
+      run_once: true
+
+- hosts: all
+  gather_facts: false
+  become: "{{ ansible_become_status | default(true) }}"
+  roles:
+    - sshd_config
+  
+- hosts: all
+  gather_facts: true
+  become: "{{ ansible_become_status | default(true) }}"
+  roles:
+    - install_software
+    - basic_configuration
+    - sysctl
+    - cpufrequtils
+    - users
