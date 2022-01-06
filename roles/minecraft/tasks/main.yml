@@ -21,15 +21,22 @@
 
 - name: "Download BuildTools"
   get_url:
-    src: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+    url: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
     dest: /tmp/buildtools/
 
 - name: "Build spigot.jar file"
-  shell: 'java -jar /tmp/buildtools/BuildTools.jar --rev {{ MINECRAFT_VERSION }}'
+  command: 'java -jar /tmp/buildtools/BuildTools.jar --rev {{ MINECRAFT_VERSION }}'
+  args:
+    creates: 'spigot-{{ MINECRAFT_VERSION }}.jar'
+    chdir: '/tmp/buildtools'
+  environment:
+    PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}/bin
+    JAVA_HOME: /opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}
+    SHELL: /bin/bash
 
 - name: "Copy spigot.jar to server folder"
   copy:
-    src: /opt/buildtools/spigot-{{ MINECRAFT_VERSION }}.jar
+    src: /tmp/buildtools/spigot-{{ MINECRAFT_VERSION }}.jar
     dest: /opt/{{ item }}/server.jar
     remote_src: yes
   with_items: "{{ SERVERS }}"
