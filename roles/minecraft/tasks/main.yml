@@ -1,65 +1,15 @@
-- name: "Install screen"
-  apt:
-    name: screen
+- name: "Create group"
+  group:
+    name: "{{ MINECRAFT_GROUP }}"
     state: present
-    update_cache: yes
+    system: true
 
-- name: "Create server folders"
-  file:
-    path: /opt/{{ item }}
-    state: directory
-    mode: 0755
-    owner: root
-    group: root
-  with_items: "{{ SERVERS }}"
+- name: "Create user"
+  user:
+    name: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+    home: "{{ MINECRAFT_HOME }}"
 
-- name: "Create temporary folder for BuildTools"
-  file:
-    path: /tmp/buildtools
-    state: directory
-    mode: 0755
-
-- name: "Download BuildTools"
-  get_url:
-    url: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-    dest: /tmp/buildtools/
-
-- name: "Build spigot.jar file"
-  command: 'java -jar /tmp/buildtools/BuildTools.jar --rev {{ MINECRAFT_VERSION }}'
-  args:
-    creates: 'spigot-{{ MINECRAFT_VERSION }}.jar'
-    chdir: '/tmp/buildtools'
-  environment:
-    PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}/bin
-    JAVA_HOME: /opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}
-    SHELL: /bin/bash
-
-- name: "Copy spigot.jar to server folder"
-  copy:
-    src: /tmp/buildtools/spigot-{{ MINECRAFT_VERSION }}.jar
-    dest: /opt/{{ item }}/server.jar
-    remote_src: yes
-  with_items: "{{ SERVERS }}"
-
-- name: "Agree with EULA"
-  copy:
-    src: eula.txt
-    dest: /opt/{{ item }}/eula.txt
-    mode: 0644
-    owner: root
-    group: root
-  with_items: "{{ SERVERS }}"
-
-- name: "Copy scripts"
-  copy:
-    src: files/scripts/
-    dest: /opt/{{ item }}/
-    mode: 0755
-    owner: root
-    group: root
-  with_items: "{{ SERVERS }}"
-
-- name: "Remove tmp files from the server"
-  file:
-    path: /tmp/buildtools/
-    state: absent
+- name: "Start installation"
+  include_role:
+    name: "{{ MINECRAFT_TYPE }}.yml"

@@ -1,3 +1,20 @@
 MINECRAFT_VERSION: 1.18.1
 JAVA_VERSION: 17
 GRAALVM_VERSION: 21.3.0
+MINECRAFT_TYPE: vanilla
+MINECRAFT_NAME: "{{ MINECRAFT_TYPE }}"
+MINECRAFT_USER: minecraft
+MINECRAFT_GROUP: minecraft
+MINECRAFT_HOME: /opt/minecraft/{{ MINECRAFT_NAME }}
+SPIGOT_DOWNLOAD_URL: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+SPIGOT_PKGS:
+  - git
+  - tar
+  - screen
+VANILLA_DOWNLOAD_URL: https://launcher.mojang.com/v1/objects/125e5adf40c659fd3bce3e66e67a16bb49ecc1b9/server.jar
+VANILLA_PKGS:
+  - screen
+PAPER_BUILD: 136
+PAPER_DOWNLOAD_URL: https://papermc.io/api/v2/projects/paper/versions/{{ MINECRAFT_VERSION }}/builds/{{ PAPER_BUILD }}/downloads/paper-{{ MINECRAFT_VERSION }}-{{ PAPER_BUILD }}.jar
+PAPER_PKGS:
+  - screen
