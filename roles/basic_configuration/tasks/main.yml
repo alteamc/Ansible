@@ -1,0 +1,13 @@
+- name: "Set timezote to GTM0"
+  timezone:
+    name: GMT0
+
+- name: "swap | disable"
+  shell: swapoff -a
+
+- name: "swap | comment out in fstab"
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+

@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+# Common sysctl
+{% for item in sysctl_common %}
+{{ item }} = {{ sysctl_common[item] }}
+{% endfor %}
+
+{% if sysctl_custom is defined %}
+# Custom sysctl
+{% for item in sysctl_custom %}
+{{ item }} = {{ sysctl_custom[item] }}
+{% endfor %}
+{% endif %}

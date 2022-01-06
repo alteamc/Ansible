@@ -1,0 +1,21 @@
+debian_pkgs:
+  - screen
+  - ncdu
+  - htop
+  - atop
+  - iotop
+  - iftop
+  - nmap
+  - dnsutils
+  - wget
+  - curl
+  - nano
+  - vim
+  - lshw
+  - iperf
+  - iperf3
+  - hdparm
+  - python-pip
+  - python3-pip
+  - bash-completion
+  - gnupg2

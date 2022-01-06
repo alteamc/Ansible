@@ -1,0 +1,50 @@
+- name: "Set connect_host as inventory_hostname"
+  set_fact:
+    connect_host: "{{ ansible_host | default(inventory_hostname) }}"
+
+- name: "Test default SSH ports"
+  wait_for:
+    port: "{{ item }}"
+    timeout: 3
+    host: "{{ connect_host }}"
+  register: ssh_ports_test
+  delegate_to: localhost
+  ignore_errors: true
+  become: false
+  loop: "{{ ssh_ports }}"
+
+- name: "Set ansible_ssh_port"
+  set_fact:
+    ansible_ssh_port: "{{ item.port | default(default_ssh_port) }}"
+  when: item is not failed
+  loop: "{{ ssh_ports_test.results }}"
+  register: "default_port"
+
+- name: "Remove default SSH port"
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#*Port\s'
+    state: absent
+  register: ssh_config
+
+- name: "Change SSH port"
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#*Port\s'
+    line: "Port {{ default_ssh_port }}"
+    state: present
+  register: ssh_config
+
+- name: "Disallow password authentication"
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#*PasswordAuthentication\s'
+    line: 'PasswordAuthentication no'
+    state: present
+  register: disallow_password_auth
+
+- name: "Restart sshd service"
+  systemd:
+    name: sshd
+    state: restarted
+  when: ssh_config is changed

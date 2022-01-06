@@ -1,0 +1,9 @@
+- name: "Install software for Debian"
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ debian_pkgs }}"
+  when:
+    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - debian_pkgs != ""

@@ -1,0 +1,5 @@
+ssh_ports:
+  - 22
+  - 17802
+
+default_ssh_port: 17802
