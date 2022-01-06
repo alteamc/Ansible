@@ -1,0 +1,48 @@
+- name: "Install dependencies"
+  apt:
+    name: "{{ PAPER_PKGS }}"
+    state: present
+    update_cache: yes
+
+- name: "Create server folder"
+  file:
+    path: "{{ MINECRAFT_HOME }}"
+    state: directory
+    mode: 0755
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+
+- name: "Create server subfolders"
+  file:
+    path: "{{ MINECRAFT_HOME }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+  with_items:
+    - logs
+    - plugins
+
+- name: "Download paper jar"
+  get_url:
+    url: "{{ PAPER_DOWNLOAD_URL }}"
+    dest: "{{ MINECRAFT_HOME }}/server.jar"
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+    mode: 0755
+
+- name: "Agree to EULA"
+  copy:
+    src: eula.txt
+    dest: "{{ MINECRAFT_HOME }}/eula.txt"
+    mode: 0644
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+
+- name: "Copy scripts"
+  copy:
+    src: files/scripts/
+    dest: "{{ MINECRAFT_HOME }}"
+    mode: 0755
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"

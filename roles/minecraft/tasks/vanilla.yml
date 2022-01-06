@@ -1,0 +1,37 @@
+- name: "Install dependencies"
+  apt:
+    name: "{{ VANILLA_PKGS }}"
+    state: present
+    update_cache: yes
+
+- name: "Create server folder"
+  file:
+    path: "{{ MINECRAFT_HOME }}"
+    state: directory
+    mode: 0755
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+
+- name: "Download vanilla jar"
+  get_url:
+    url: "{{ VANILLA_DOWNLOAD_URL }}"
+    dest: "{{ MINECRAFT_HOME }}/server.jar"
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+    mode: 0755
+
+- name: "Agree to EULA"
+  copy:
+    src: eula.txt
+    dest: "{{ MINECRAFT_HOME }}/eula.txt"
+    mode: 0644
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
+
+- name: "Copy scripts"
+  copy:
+    src: files/scripts/
+    dest: "{{ MINECRAFT_HOME }}"
+    mode: 0755
+    owner: "{{ MINECRAFT_USER }}"
+    group: "{{ MINECRAFT_GROUP }}"
