@@ -9,8 +9,7 @@ location /discord {
 	return 301 https://discord.gg/cSn9Qc6XRJ;
 }
 
-location /favicon.ico {
-	log_not_found off;
-	access_log off;
-	return 200;
+location /map {
+	proxy_pass http://play.altea.land;
+}
 }

@@ -1,0 +1,15 @@
+ssl_stapling on;
+
+ssl_session_timeout 24h;
+ssl_session_cache shared:SSL:60m shared:TLS:60m;
+
+ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
+
+ssl_ciphers EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA512:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:ECDH+AESGCM:ECDH+AES256:DH+AESGCM:DH+AES256:RSA+AESGCM:!aNULL:!eNULL:!LOW:!RC4:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;
+ssl_prefer_server_ciphers on;
+
+add_header Strict-Transport-Security 'max-age=86400; includeSubDomains; preload;';
+add_header X-Content-Type-Options nosniff;
+add_header X-Robots-Tag none;
+add_header X-Download-Options noopen;
+add_header X-Permitted-Cross-Domain-Policies none;
