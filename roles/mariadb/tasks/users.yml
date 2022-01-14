@@ -1,0 +1,23 @@
+- name: "Remove anonymous users"
+  mysql_user:
+    name: ''
+    host_all: true
+    login_user: root
+    login_password: "{{ MARIADB_ROOT_PASSWORD }}"
+    login_unix_socket: "{{ MARAIDB_SOCKET }}"
+    state: absent
+  no_log: true
+  
+- name: "Create users"
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: "{{ item.host|default('localhost') }}"
+    priv: "{{ item.priv }}"
+    append_privs: "{{ item.append_privs|default('no') }}"
+    login_user: root
+    login_password: "{{ MARIADB_ROOT_PASSWORD }}"
+    login_unix_socket: "{{ MARAIDB_SOCKET }}"
+    state: present
+  no_log: true
+  with_items: "{{ MARIADB_USERS }}"

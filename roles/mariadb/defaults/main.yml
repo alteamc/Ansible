@@ -1,0 +1,43 @@
+UTILITY_PKGS:
+  - software-properties-common
+  - python-mysqldb
+
+MARIADB_PKGS:
+    - mariadb-client
+    - mariadb-server
+    - mariadb-common
+
+MARIADB_DATABASES: []
+MARIADB_USERS: []
+MARIADB_ROOT_PASSWORD: ''
+MARIADB_AUTH_UNIX_PLUGIN: false
+
+MARIADB_VERSION: '10.5'
+
+MARIADB_CONFIGURE_SWAPPINESS: false
+MARIADB_SWAPPINESS: "0"
+
+MARIADB_SYSTEM_USER:
+  NAME: 'mysql'
+  UID: 27
+  GID: 27
+  SHELL: '/sbin/nologin'
+  HOME: '/var/lib/mysql'
+  COMMENT: 'MySQL Server'
+
+MARIADB_CONFIG_NETWORK: /etc/my.cnf.d/network.cnf
+MARIADB_CONFIG_SERVER: /etc/my.cnf.d/server.cnf
+MARIADB_CONFIG_CUSTOM: /etc/my.cnf.d/custom.cnf
+MARIADB_CONFIG_LOGROTATE: /etc/logrotate.d/mysql
+
+MARIADB_LOGROTATE:
+  CONFIGURE: true
+  ROTATE: 3
+
+MARIADB_SERVICE: mariadb
+MARIADB_BIND_ADDRESS: '127.0.0.1'
+MARIADB_SOCKET: /var/lib/mysql/mysql.sock
+
+MARIADB_SERVER_CNF: {}
+
+MARIADB_CUSTOM_CNF: {}
