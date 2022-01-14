@@ -13,16 +13,16 @@ server {
 
 	add_header X-Request-ID $request_id;
 
-	include /etc/nginx/conf.d/global/ssl_param;
-	include /etc/nginx/conf.d/global/set_headers;
+	include conf.d/global/ssl;
+	include conf.d/global/headers;
 
 	ssl_certificate		/opt/certbot/ssl/{{ item }}/fullchain.pem;
 	ssl_certificate_key	/opt/certbot/ssl/{{ item }}/privkey.pem;
 
 {% if item == "altea.land" %}
-	include /etc/nginx/conf.d/global/location_template_index
+	include conf.d/global/location_template_index
 {% elif item == "vault.altea.land" %}
-	nclude /etc/nginx/conf.d/global/location_template_vault
+	include conf.d/global/location_template_vault
 {% endif %}
 
 access_log {{ item }}_access.log
