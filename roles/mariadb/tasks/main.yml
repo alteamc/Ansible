@@ -1,0 +1,34 @@
+- name: "Install utility software"
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: "{{ UTILITY_PKGS }}"
+
+- name: "Install MariaDB"
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: "{{ MARIADB_PKGS }}"
+
+- name: "Configure MariaDB"
+  include_task: config.yml
+
+- name: Set the database root password
+  include_tasks: root-password.yml
+  when:
+    - not mariadb_auth_unix_plugin
+    - mariadb_version is version('10.4', '<')
+
+- name: Enable plugin unix_socket
+  include_tasks: auth-unix-plugin.yml
+  when:
+    - mariadb_auth_unix_plugin
+    - mariadb_version is version('10.4', '<')
+
+- name: Create and initialize databases
+  include_tasks: databases.yml
+  tags: mariadb
+
+- name: Create users
+  include_tasks: users.yml
+  tags: mariadb
