@@ -15,7 +15,6 @@ debian_pkgs:
   - iperf
   - iperf3
   - hdparm
-  - python-pip
   - python3-pip
   - bash-completion
   - gnupg2

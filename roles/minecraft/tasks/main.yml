@@ -9,7 +9,7 @@
     name: "{{ MINECRAFT_USER }}"
     group: "{{ MINECRAFT_GROUP }}"
     home: "{{ MINECRAFT_HOME }}"
+    shell: /bin/bash
 
 - name: "Start installation"
-  include_role:
-    name: "{{ MINECRAFT_TYPE }}.yml"
+  include_tasks: "{{ MINECRAFT_TYPE }}.yml"
