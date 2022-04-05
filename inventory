@@ -1,13 +1,12 @@
 [web]
-altea.land ansible_host=95.216.186.238
+altea.land
 
 [minecraft]
 play.altea.land
-cherka ansible_host=192.168.0.2
 
 [vpn]
-usa-vpn.altea.land
-vpn-fin.altea.land ansible_host=65.21.146.203 ansible_user=root
+vpn-usa.altea.land
+vpn-fin.altea.land
 
 [vault]
-vault.altea.land ansible_host=95.216.186.238
+vault.altea.land
