@@ -1,0 +1,7 @@
+- name: "Create users"
+  htpasswd:
+    path: "/etc/squid/passwd"
+    name: "{{ item.key }}"
+    password: "{{ item.value.password }}"
+    state: present
+  with_dict: "{{ users_list }}"

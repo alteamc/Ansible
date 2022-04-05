@@ -1,0 +1,51 @@
+- name: "Creqte squid group"
+  group:
+    name: "{{ squid_group }}"
+    system: yes
+    state: present
+
+- name: "Create squid user"
+  user:
+    name: "{{ squid_user }}"
+    group: "{{ squid_group }}"
+    create_home: no
+    state: present
+    home: /var/spool/squid
+    shell: /sbin/nologin
+    system: yes
+
+- name: "Install squid"
+  apt:
+    name: squid
+    state: present
+    update_cache: yes
+
+- name: "Copy config"
+  template:
+    src: squid.conf.j2
+    dest: "/etc/squid/squid.conf"
+    mode: 0644
+    validate: squid -k parse -f %s
+  notify: restart squid
+
+- name: "Create passwd file"
+  file:
+    path: "/etc/squid/passwd"
+    state: touch
+
+- name: "Create cache directory"
+  file:
+    path: /var/spool/squid
+    state: directory
+    owner: "{{ squid_user }}"
+    group: "{{ squid_group }}"
+    mode: "0750"
+
+- name: "Start and enable squid"
+  service:
+    name: "squid"
+    state: started
+    enabled: yes
+
+- name: "Create users"
+  include_tasks: users.yml
