@@ -1,0 +1,9 @@
+squid_user: proxy
+squid_group: proxy
+squid_port: 3128
+
+users_list:
+  chertila:
+    password: "{{ chertila_squid_password }}"
+  neka:
+    password: "{{ neka_squid_password }}"
