@@ -9,13 +9,13 @@
 
 - hosts: all
   gather_facts: false
-  become: "{{ ansible_become_status | default(true) }}"
+  become: true
   roles:
     - sshd_config
   
 - hosts: all
   gather_facts: true
-  become: "{{ ansible_become_status | default(true) }}"
+  become: true
   roles:
     - install_software
     - basic_configuration

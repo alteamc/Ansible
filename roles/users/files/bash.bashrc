@@ -6,10 +6,12 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-if [ "`id -u`" -eq 0]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\e[32m\][\D{%H:%M:%S}]\[\e[1;31m\]\u\[\e[1;33m\]@\[\e[1;36m\]\h \[\e[1;33m\]\w \[\e[1;35m\]\$ \[\e[0m\] '
+if [ "`id -u`" -eq 0 ]; then
+    PS1='\[\e[1;32m\][\t]\[\e[1;31m\]${debian_chroot:+($debian_chroot)}\u\[\e[1;33m\]@\[\e[1;36m\]\h \[\e[1;33m\]\w \[\e[1;35m\]\$ \[\e[0m\] '
+    PS2='\[\e[1;31m\]>\[\e[0m\] '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\[\e[32m\][\D{%H:%M:%S}]\[\e[1;94m\]\u\[\e[1;33m\]@\[\e[1;36m\]\h \[\e[1;33m\]\w \[\e[1;35m\]\$ \[\e[0m\] '
+    PS1='\[\e[1;32m\][\t]\[\e[1;94m\]${debian_chroot:+($debian_chroot)}\u\[\e[1;33m\]@\[\e[1;36m\]\h \[\e[1;33m\]\w \[\e[1;35m\]\$ \[\e[0m\] '
+    PS2='\[\e[1;30m\]>\[\e[0m\] '
 fi
 
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then

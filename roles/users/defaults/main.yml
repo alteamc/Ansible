@@ -1,3 +1,11 @@
 users_groups:
   - sudo
   - systemd-journal
+
+users_list:
+  chertila:
+    password: "$6$bBdZHk8X73qpma73$XnCb0/BxDcyKjbCXLwbG1uqhnEWz6cztTzAc./Mdfr7NZb0/ENsikA5ZFydHTy7mfwqZFUI9P/xPWCmDAVaWh/"
+    pub_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+ptB80eLqJTU+2o+abj1dh1fsg1tuOa678DSRzEvNYyyeBa+YMLrwTX86El4m2CCeTZAxy3vyYGOufheSJwCYfb16auQRjKJmME32WPggu7JVnGKoqP5ultIn5YA1iH2xq9RmUW+rWkTTZcTSVwiOboK1fabCqhY64n0DtywpNXfZdmKEnstdx8XSU+kaB7Mkb0RyNB0q1+LSxVtZKw6XIn+VUZ6QF18Gix+nfNMGHgxfyTWRGlvxJtJ6aHFnePc1Ls1kbbFtmraHtQcYDcApxmLpr1K2H4V9zpkezIEhu4JEakq0+M6miZsvKaQ/gHG2VK+ME6Vn/9n9LoPyfTul chertila@openSUSE-PC"
+  neka:
+    password: "$6$5KHR8isgkPmDcIhL$jWzznwJPHs/H5L36vjYSdqvlrEW5wixLW1HuTGtUxi0wXDTkhsNz7/v8wrCLe4EIVhtccunLXOAMDuwGOqLAI0"
+    pub_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxoS+XOLT1YnBPonztW0NgSTZPaLfqNojytRW0bCmKcRJKbXHoSfkgiBoA5WnzQhjKJUsj8fIotCm53495Yn3iDSAtH/5apv7UM2aU56F+GGrNqBNfPtkE43O35rNqsmH0+M2wpFBsGX1zRCGPPbBcP4KIx9kafquscYItU74ofbtZlvgiRm5Na4MhH4RC/64XGUZDXXLXojPNhpQQDinahpX+puiIY89pXMjZmWGI3m5Hz3TDpoaE19jL2K+aCB+DRine5OiO9vw4tPYegqG6ctBEAFZspx/BvSvH6Rzqe6XAnVh0Wr3GtiCZQnL/tpyfyFQgVjgE0k99uxC9cHS5 osincevaa@Neka-PC"

@@ -1,3 +1,9 @@
+- name: "Add required modules"
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ modprobe_modules }}"
+
 - name: "Configure sysctl"
   template:
     src: sysctl.conf.j2
