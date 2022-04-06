@@ -1,0 +1,4 @@
+node_exporter_version: 1.3.1
+node_exporter_user: prometheus
+node_exporter_group: prometheus
+node_exporter_args: "--collector.systemd --collector.processes --collector.interrupts"
