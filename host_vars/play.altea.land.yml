@@ -1,6 +1,6 @@
-JAVA_VERSION: 17
-GRAALVM_VERSION: 21.3.0
-MINECRAFT_TYPE: paper
-MINECRAFT_NAME: altea
-MINECRAFT_HOME: /var/minecraft/{{ MINECRAFT_NAME }}
-PAPER_BUILD: 278
+java_version: 17
+graalvm_version: 21.3.0
+minecraft_type: paper
+minecraft_name: altea
+minecraft_home: /var/minecraft/{{ minecraft_name }}
+paper_build: 278

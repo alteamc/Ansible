@@ -1,48 +1,48 @@
 - name: "Install dependencies"
   apt:
-    name: "{{ PAPER_PKGS }}"
+    name: "{{ paper_pkgs }}"
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: "Create server folder"
   file:
-    path: "{{ MINECRAFT_HOME }}"
+    path: "{{ minecraft_home }}"
     state: directory
-    mode: 0755
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Create server subfolders"
   file:
-    path: "{{ MINECRAFT_HOME }}/{{ item }}"
+    path: "{{ minecraft_home }}/{{ item }}"
     state: directory
-    mode: 0755
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
   with_items:
     - logs
     - plugins
 
 - name: "Download paper jar"
   get_url:
-    url: "{{ PAPER_DOWNLOAD_URL }}"
-    dest: "{{ MINECRAFT_HOME }}/server.jar"
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
-    mode: 0755
+    url: "{{ paper_download_url }}"
+    dest: "{{ minecraft_home }}/server.jar"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
+    mode: 755
 
 - name: "Agree to EULA"
   copy:
     src: eula.txt
-    dest: "{{ MINECRAFT_HOME }}/eula.txt"
-    mode: 0644
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    dest: "{{ minecraft_home }}/eula.txt"
+    mode: "0644"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Copy scripts"
   copy:
     src: files/scripts/
-    dest: "{{ MINECRAFT_HOME }}"
-    mode: 0755
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    dest: "{{ minecraft_home }}"
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"

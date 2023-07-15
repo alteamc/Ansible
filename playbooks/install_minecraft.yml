@@ -1,4 +1,5 @@
-- hosts: minecraft
+- name: Install Minecraft
+  hosts: minecraft
   gather_facts: true
   roles:
     - graalvm

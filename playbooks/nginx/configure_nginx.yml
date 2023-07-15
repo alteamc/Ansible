@@ -1,4 +1,5 @@
-- hosts: web
+- name: Configure Nginx
+  hosts: web
   become: true
   gather_facts: false
   tasks:

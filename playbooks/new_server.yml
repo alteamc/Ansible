@@ -6,13 +6,13 @@
         ansible_become_status: false
       when: ansible_ssh_user is defined and ansible_ssh_user == 'root'
       run_once: true
-
-- hosts: all
-  gather_facts: false
-  become: true
-  roles:
-    - sshd_config
-  
+# 
+# - hosts: all
+  # gather_facts: false
+  # become: true
+  # roles:
+    # - sshd_config
+  # 
 - hosts: all
   gather_facts: true
   become: true

@@ -4,8 +4,8 @@ users_groups:
 
 users_list:
   - chertila:
-    password: "{{ chertila_user_password }}"
-    pub_key: "{{ chertila_pub_key }}"
+      password: "{{ chertila_user_password }}"
+      pub_key: "{{ chertila_pub_key }}"
   - neka:
-    password: "{{ neka_user_password }}"
-    pub_key: "{{ neka_pub_key }}"
+      password: "{{ neka_user_password }}"
+      pub_key: "{{ neka_pub_key }}"

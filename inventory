@@ -3,9 +3,10 @@ altea.land
 
 [minecraft]
 play.altea.land
+newplay.altea.land ansible_ssh_port=22 ansible_ssh_user=root
 
 [vpn]
-vpn-usa.altea.land
+vpn-rus.altea.land
 vpn-fin.altea.land
 
 [vault]

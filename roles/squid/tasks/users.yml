@@ -1,7 +1,14 @@
+- name: "Install passlib python library"
+  pip:
+    name: passlib
+
 - name: "Create users"
-  htpasswd:
+  community.general.htpasswd:
     path: "/etc/squid/passwd"
     name: "{{ item.key }}"
     password: "{{ item.value.password }}"
     state: present
+    mode: "0644"
+    owner: root
+    group: root
   with_dict: "{{ users_list }}"
