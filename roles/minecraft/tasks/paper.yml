@@ -29,7 +29,7 @@
     dest: "{{ minecraft_home }}/server.jar"
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_group }}"
-    mode: 755
+    mode: "0755"
 
 - name: "Agree to EULA"
   copy:
