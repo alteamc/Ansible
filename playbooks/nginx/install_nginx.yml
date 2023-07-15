@@ -1,6 +1,7 @@
-- hosts: web
+- name: Install Nginx
+  hosts: web
   become: true
-  gather facts: false
+  gather_facts: false
   tasks:
   - include_role:
       name: nginx

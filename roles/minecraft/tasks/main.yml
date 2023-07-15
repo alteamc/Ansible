@@ -1,15 +1,15 @@
 - name: "Create group"
   group:
-    name: "{{ MINECRAFT_GROUP }}"
+    name: "{{ minecraft_group }}"
     state: present
     system: true
 
 - name: "Create user"
   user:
-    name: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
-    home: "{{ MINECRAFT_HOME }}"
+    name: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
+    home: "{{ minecraft_home }}"
     shell: /bin/bash
 
 - name: "Start installation"
-  include_tasks: "{{ MINECRAFT_TYPE }}.yml"
+  include_tasks: "{{ minecraft_type }}.yml"

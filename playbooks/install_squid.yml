@@ -1,4 +1,5 @@
-- hosts: vpn
+- name: Install squid
+  hosts: vpn
   gather_facts: true
   roles:
     - squid

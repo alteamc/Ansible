@@ -1,24 +1,24 @@
 - name: "Install dependencies"
   apt:
-    name: "{{ SPIGOT_PKGS }}"
+    name: "{{ spigot_pkgs }}"
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: "Create server folder"
   file:
-    path: "{{ MINECRAFT_HOME }}"
+    path: "{{ minecraft_home }}"
     state: directory
-    mode: 0755
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Create server subfolders"
   file:
-    path: "{{ MINECRAFT_HOME }}/{{ item }}"
+    path: "{{ minecraft_home }}/{{ item }}"
     state: directory
-    mode: 0755
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
   with_items:
     - logs
     - plugins
@@ -27,44 +27,50 @@
   file:
     path: /tmp/buildtools
     state: directory
-    mode: 0755
+    mode: "0755"
 
 - name: "Download BuildTools"
   get_url:
-    url: "{{ SPIGOT_DOWNLOAD_URL }}"
+    url: "{{ spigot_download_url }}"
     dest: /tmp/buildtools/
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Build spigot.jar file"
-  command: 'java -jar /tmp/buildtools/BuildTools.jar --rev {{ MINECRAFT_VERSION }}'
+  command: 'java -jar /tmp/buildtools/BuildTools.jar --rev {{ minecraft_version }}'
   args:
-    creates: 'spigot-{{ MINECRAFT_VERSION }}.jar'
+    creates: 'spigot-{{ minecraft_version }}.jar'
     chdir: '/tmp/buildtools'
   environment:
-    PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}/bin
-    JAVA_HOME: /opt/graalvm-ce-java{{ JAVA_VERSION }}-{{ GRAALVM_VERSION }}
+    PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/graalvm-ce-java{{ java_version }}-{{ graalvm_version }}/bin
+    JAVA_HOME: /opt/graalvm-ce-java{{ java_version }}-{{ graalvm_version }}
     SHELL: /bin/bash
 
 - name: "Copy spigot.jar to server folder"
   copy:
-    src: /tmp/buildtools/spigot-{{ MINECRAFT_VERSION }}.jar
-    dest: "{{ MINECRAFT_HOME }}/server.jar"
-    remote_src: yes
+    src: /tmp/buildtools/spigot-{{ minecraft_version }}.jar
+    dest: "{{ minecraft_home }}/server.jar"
+    remote_src: true
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Agree to EULA"
   copy:
     src: eula.txt
-    dest: "{{ MINECRAFT_HOME }}/eula.txt"
-    mode: 0644
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    dest: "{{ minecraft_home }}/eula.txt"
+    mode: "0644"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Copy scripts"
   copy:
     src: files/scripts/
-    dest: "{{ MINECRAFT_HOME }}"
-    mode: 0755
-    owner: "{{ MINECRAFT_USER }}"
-    group: "{{ MINECRAFT_GROUP }}"
+    dest: "{{ minecraft_home }}"
+    mode: "0755"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_group }}"
 
 - name: "Remove tmp files from the server"
   file:

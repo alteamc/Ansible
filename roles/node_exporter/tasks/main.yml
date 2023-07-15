@@ -1,52 +1,65 @@
-- name: "Creqte Node Exporter group"
+- name: "Create Node Exporter group"
   group:
-    name: {{ node_exporter_group }}
-    system: yes
+    name: "{{ node_exporter_group }}"
+    system: true
     state: present
 
 - name: "Create Node Exporter user"
   user:
-    name: {{ node_exporter_user }}
-    group: {{ node_exporter_group }}
-    create_home: no
+    name: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    create_home: false
     state: present
     shell: /sbin/nologin
-    system: yes
+    system: true
+
+- name: "Create tmp directory"
+  file:
+    path: /tmp/node_exporter
+    state: directory
+    mode: "0777"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
 
 - name: "Download Node Exporter archive"
   get_url:
     url: "https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
     dest: /tmp/node_exporter/
+    mode: "0777"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
 
 - name: "Extract Node Exporter"
   unarchive:
     src: /tmp/node_exporter/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
     dest: /tmp/node_exporter/
+    remote_src: true
 
 - name: "Copy Node Exporter binary"
   copy:
     src: /tmp/node_exporter/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter
     dest: /usr/local/bin/
-    owner: {{ node_exporter_user }}
-    group: {{ node_exporter_group }}
-    mode: 0644
+    mode: "0744"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    remote_src: true
 
 - name: "Clear temporary files"
   file:
-    src: /tmp/node_exporter
+    path: /tmp/node_exporter
     state: absent
 
 - name: "Create Node Exporter service"
   template:
     src: node_exporter.service.j2
     dest: /etc/systemd/system/node_exporter.service
+    mode: "0644"
     owner: root
     group: root
-    mode: 0644
 
 - name: "Start Node Exporter service"
   systemd:
     name: node_exporter.service
-    daemon_reload: yes
-    enabled: yes
+    daemon_reload: true
+    enabled: true
     state: started
